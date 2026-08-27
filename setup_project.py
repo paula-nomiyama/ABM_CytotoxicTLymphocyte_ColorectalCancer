@@ -80,6 +80,13 @@ def sanitize_project_name(project_name):
     return ''.join(filter(lambda char: char.isalpha() or char.isnumeric(), project_name))
 
 
+def replace_word_in_file_name(word_to_replace, replacement_word, file):
+    directory, base_name = os.path.split(file)
+    new_base_name = base_name.replace(word_to_replace, replacement_word)
+    new_path = os.path.join(directory, new_base_name)
+    os.rename(file, new_path)
+    return new_path
+
 def main():
     # The absolute path to the project directory
     path_to_project = os.path.dirname(os.path.realpath(__file__))
@@ -106,18 +113,21 @@ def main():
     sanitized_name = sanitize_project_name(project_name)
 
     substitutions = { # These are very specific to avoid rewriting the printed out "Hello world" message
-        " TestHello": " TestHello_" +  sanitized_name,
-        "TestHello.hpp": "TestHello_" + project_name + ".hpp",
-        "HELLO": "HELLO_" + sanitized_name.upper(),
-        "Hello world(": "Hello_" + sanitized_name + " world(",
-        "class Hello": "class Hello_" + sanitized_name,
-        "Hello::": "Hello_" + sanitized_name + "::",
-        "Hello(": "Hello_" + sanitized_name + "(",
-        "TestHello.hpp": "TestHello_" + project_name + ".hpp",
-        "Hello.hpp": "Hello_" + project_name + ".hpp"
+        " TestHello": " Test" +  sanitized_name,
+        "TestHello.hpp": "Test" + project_name + ".hpp",
+        "HELLO": "" + sanitized_name.upper(),
+        "Hello world(": "" + sanitized_name + " world(",
+        "class Hello": "class " + sanitized_name,
+        "Hello::": "" + sanitized_name + "::",
+        "Hello(": "" + sanitized_name + "(",
+        "TestHello.hpp": "Test" + project_name + ".hpp",
+        "Hello.hpp": "" + project_name + ".hpp"
     }
 
-    files_to_sub = appended_file_names + [str(os.path.join(path_to_project, 'test', 'ContinuousTestPack.txt'))]
+
+    renamed_hello_files = [replace_word_in_file_name('Hello_', '', f) for f in appended_file_names]
+    appended_file_names = renamed_hello_files
+
 
     for file in files_to_sub:
         for old, new in substitutions.items():

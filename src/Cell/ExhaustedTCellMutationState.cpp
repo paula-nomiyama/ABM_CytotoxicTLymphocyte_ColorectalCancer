@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2005-2023, University of Oxford.
+Copyright (c) 2005-2026, University of Oxford.
 All rights reserved.
 
 University of Oxford means the Chancellor, Masters and Scholars of the
@@ -33,22 +33,12 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef HELLO_HPP_
-#define HELLO_HPP_
+#include "ExhaustedTCellMutationState.hpp"
 
-#include <string>
+ExhaustedTCellMutationState::ExhaustedTCellMutationState()
+    : AbstractCellMutationState(2)
+{}
 
-class Hello
-{
-private:
-    std::string mMessage;
-
-public:
-    Hello(const std::string& rMessage);
-
-    std::string GetMessage();
-
-    void Complain(const std::string& rComplaint);
-};
-
-#endif /*HELLO_HPP_*/
+#include "SerializationExportWrapperForCpp.hpp"
+// Declare identifier for the serializer
+CHASTE_CLASS_EXPORT(ExhaustedTCellMutationState)

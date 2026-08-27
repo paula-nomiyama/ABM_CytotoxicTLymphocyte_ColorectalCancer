@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2005-2023, University of Oxford.
+Copyright (c) 2005-2026, University of Oxford.
 All rights reserved.
 
 University of Oxford means the Chancellor, Masters and Scholars of the
@@ -33,20 +33,12 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "Hello.hpp"
-#include "Exception.hpp"
+#include "TumorCellMutationState.hpp"
 
-Hello::Hello(const std::string& rMessage)
-    : mMessage(rMessage)
-{
-}
+TumorCellMutationState::TumorCellMutationState()
+    : AbstractCellMutationState(0)
+{}
 
-std::string Hello::GetMessage()
-{
-    return mMessage;
-}
-
-void Hello::Complain(const std::string& rComplaint)
-{
-    EXCEPTION(rComplaint);
-}
+#include "SerializationExportWrapperForCpp.hpp"
+// Declare identifier for the serializer
+CHASTE_CLASS_EXPORT(TumorCellMutationState)
